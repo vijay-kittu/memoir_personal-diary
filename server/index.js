@@ -20,8 +20,8 @@ mongoose
 
 app.use(cors());
 
-app.use(userRouter);
-app.use(journalRouter);
+app.use("/api/users", userRouter);
+app.use("/api/journals", journalRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

@@ -1,5 +1,5 @@
 import { Fragment, useState, useContext } from "react";
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon, Plus, PlusCircleIcon, PlusSquareIcon } from "lucide-react";
 import { Menu/*, Transition*/ } from "lucide-react";
 import { JournalContext } from "../context/JournalContext";
 import { startOfToday, format, eachDayOfInterval, endOfMonth, startOfMonth, isToday, endOfWeek, isSameMonth, isEqual, add, parse, getDay, startOfWeek, set } from "date-fns";
@@ -36,10 +36,10 @@ const Example = () => {
     }
 
     return (
-        <div className="pt-16 flex flex-col justify-evenly h-full">
-            <div className="max-w-md  px-[16px] mx-auto sm:px-[28px] md:max-w-[896px] md:px-[24px]">
+        <div className=" flex flex-col justify-center h-full">
+            <div className="max-w-md px-[16px] mx-auto sm:px-[28px] md:max-w-[896px] md:px-[24px]">
                 <div className="md:grid md:grid-cols-2 md:divide-x md:divide-[gray]">
-                    <div className="md:pr-[56px]">
+                    <div className="md:pr-[56px] ">
                         <div className="flex items-center">
                             <h2 className="flex-auto font-semibold text-[black]">
                                 
@@ -86,7 +86,7 @@ const Example = () => {
                                         <time dateTime={format(day, 'yyyy-MM-dd')}>
                                             {format(day, 'd')}
                                         </time>
-                                        {isOpen && (dayIdx === dateIndex) && <input onChange={(event) => handleTime(event.target.value)} onClick={() => setIsOpen(true)} type="time" value={time} className=" p-[5px] border-[0] rounded-[10px] bg-[skyblue] absolute top-full z-10 " />}
+                                        
                                     </button>
                                     
                                 </div>
@@ -96,13 +96,13 @@ const Example = () => {
                 </div>
                 
             </div>
-            <button type="submit" onClick={() => {
+            {/*<button type="submit" onClick={() => {
                 const combinedDateTime = getCombinedDateTime(date, time);
                 console.log(combinedDateTime);
-                /*isEditing(true);*/
-                }} className="p-[10px] rounded-[10px] border border-[skyblue] shadow-[0px_0px_12px_rgba(255,0,255,0.4)] bg-[skyblue] text-[white] flex place-self-center cursor-pointer" >
+                /*isEditing(true);*
+                }} className="p-[10px] my-[10px] rounded-[10px] border border-[skyblue] shadow-[0px_0px_12px_rgba(255,0,255,0.4)] bg-[skyblue] text-[white] flex self-center place-content-center w-[80%] cursor-pointer" >
                     Write a Journal
-            </button>
+            </button>*/}
         </div>
     );
     

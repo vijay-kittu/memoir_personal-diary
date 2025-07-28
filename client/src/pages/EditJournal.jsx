@@ -1,13 +1,9 @@
-import React, {useContext, useEffect, useState} from 'react'
-import JournalsPage from './JournalsPage';
-import axios from 'axios';
+import React, { useContext, useState } from 'react'
 import { JournalContext } from '../context/JournalContext';
-import NewJournal from './NewJournal';
-import { AuthContext } from '../context/AuthContext';
+import axios from 'axios';
 
-const JournalSpace = () => {
-    const [openEditor, setOpenEditor] = useState(false);
-    /*const [title, setTitle] = useState('');
+const EditJournal = ({openEditor, setOpenEditor}) => {
+    const [title, setTitle] = useState('');
     const [journal, setJournal] = useState('');
     const [isEditing, setIsEditing] = useState(false);
 
@@ -48,34 +44,27 @@ const JournalSpace = () => {
     };
 
     const handleButtonClick = () => {
-        setIsEditing(!isEditing);         
+        setIsEditing(!isEditing);
+                
     };
-    */
-
-    
   return (
-    
-        <div className='w-[65%] flex flex-col items-center bg-[#606f69] rounded-[10px] m-[5px] '>
-            {/*
-            <JournalsPage />
-            <input value={title} type='text' placeholder="Title" onChange={(event) => setTitle(event.target.value)} className='w-[90%] bg-transparent shadow-[0px_0px_10px_rgba(0,0,0,0.5)] border-0 focus:outline-none py-[5px] mb-[5px] ' />
-             {/* Area that shows existing text(if any) along with an edit button, if not, there will only be a text box*}
+    <div className='w-full h-full flex flex-col items-center justify-end '>
+        <input value={title} type='text' placeholder="Title" onChange={(event) => setTitle(event.target.value)} className='w-[90%] bg-transparent shadow-[0px_0px_10px_rgba(0,0,0,0.5)] border-0 focus:outline-none py-[5px] mb-[5px] ' />
+             {/* Area that shows existing text(if any) along with an edit button, if not, there will only be a text box*/}
             <textarea onChange={(event) => setJournal(event.target.value)} disabled={!isEditing} placeholder="What's on your mind today?" rows={25} className={`w-[90%] rounded-[5px] focus:outline-none resize-none ${!isEditing ? 'text-[white]' : ''} `} />
             <div className='w-[90%] flex justify-end  my-[10px]'>
                 <button type='submit' onClick={() => {
                     if(isEditing) {
                         handleSave();
+                        setOpenEditor(false);
                     }
                     handleButtonClick();
                 }} className='h-[30px] w-[70px] rounded-[5px] border-transparent cursor-pointer'>
                     {isEditing ? 'Save' : 'Edit'}
                 </button>
             </div>
-            */}
-            {openEditor ? <NewJournal openEditor={openEditor} setOpenEditor={setOpenEditor} /> : <JournalsPage openEditor={openEditor} setOpenEditor={setOpenEditor} />}
-
-        </div>
+    </div>
   )
 }
 
-export default JournalSpace
+export default EditJournal

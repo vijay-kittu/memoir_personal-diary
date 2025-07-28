@@ -5,7 +5,7 @@ import User from "../db/User.js";
 
 const userRouter = express.Router();
 
-userRouter.post("/api/users", async (req, res) => {
+userRouter.post("/signup", async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
@@ -41,6 +41,34 @@ userRouter.post("/api/users", async (req, res) => {
     );
   } catch (error) {
     console.log("This is the error: ", error);
+    return res.status(400).json({ message: "Server error", error });
+  }
+});
+
+userRouter.post("/signin", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      console.log("Invalid credentials");
+      return res.status(400).json({ message: "Invalid credentials!" });
+    }
+    const matchPassword = await bcrypt.compare(password, user.password);
+    if (!matchPassword) {
+      console.log("Invalid credentials");
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+    console.log(user);
+    return res.status(201).json({
+      user: {
+        id: user._id,
+        email: user.email,
+        username: user.userName,
+      },
+    });
+  } catch (error) {
+    console.log("Error while signing up: ", error);
     return res.status(400).json({ message: "Server error", error });
   }
 });

@@ -1,6 +1,8 @@
 import { set } from 'date-fns';
 import React, {createContext, useContext, useState} from 'react'
 
+
+
 export const JournalContext = createContext();
 
 export const JournalProvider = ({children}) => {

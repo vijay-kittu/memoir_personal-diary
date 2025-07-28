@@ -4,6 +4,8 @@ import {Settings, Feather, Sun, Moon} from 'lucide-react'
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [lightMode, setLightMode] = useState(true);
+
+    
   return (
     <div  className=' h-40 m-[5px] mb-[0px] py-[2px] flex justify-between align-middle relative bg-[#a3f3e3] rounded-[5px]'>
         {/*<div onClick={() => setIsOpen(!isOpen)}>
@@ -31,7 +33,7 @@ const Navbar = () => {
         <div className=" flex flex-col absolute left-[10px] top-full bg-[red] "> {// absolute top-full bg-[red] z-50 }
             <>
             <a href="/profile" className="text-[black] hover:text-[white] hover:bg-[black] px-[8px] py-[5px] border-[0.5px]  decoration-transparent">Profile</a>
-            <a href="/logout" className="text-[black] hover:text-[white] hover:bg-[black] px-[8px] py-[5px] decoration-transparent">Logout</a>
+            <a onClick={''} href="/" className="text-[black] hover:text-[white] hover:bg-[black] px-[8px] py-[5px] decoration-transparent">Logout</a>
             </>
             
 }         {/*<ul className="absolute w-fit left-[0px] top-full list-none flex flex-col gap-4">
