@@ -3,34 +3,54 @@ import { JournalContext } from '../context/JournalContext';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 
-const NewJournal = ({openEditor, setOpenEditor}) => {
+const NewJournal = ({createJournal, setCreateJournal}) => {
     const [title, setTitle] = useState('');
     const [journal, setJournal] = useState('');
     const [isEditing, setIsEditing] = useState(false);
-    const [time, setTime] = useState('00:00');
 
-    const {date, getCombinedDateTime} = useContext(JournalContext);
+    const todaysDateTime = new Date();
+    const formattedDateTimes = todaysDateTime.toISOString().slice(0, 19); // "2025-07-27T18:30"
+    const [dateTime, setDateTime] = useState(formattedDateTimes);
+
+    
+
+    //const {date, getCombinedDateTime} = useContext(JournalContext);
     const {user} = useContext(AuthContext);
 
 
+    const formatToFullDateTime = (initialDateTime) => {
+        const pad = (n) => n.toString().padStart(2, "0");
+
+        const year = initialDateTime.getFullYear();
+        const month = pad(initialDateTime.getMonth() + 1); // 0-based
+        const day = pad(initialDateTime.getDate());
+        const hours = pad(initialDateTime.getHours());
+        const minutes = pad(initialDateTime.getMinutes());
+        const seconds = pad(initialDateTime.getSeconds());
+
+        return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+    };
+
     const handleSave = async () => {
         try{
-            const dateTime = getCombinedDateTime(date, time);
             if(!user){
                 return alert("No user!");
                 
             }
-            console.log(dateTime, title, journal);
+            const [date, timeWithSeconds] = dateTime.split("T");
+            console.log(date, timeWithSeconds, title, journal);
+
             const response = await axios.post(`http://localhost:5000/api/journals/${user.id}`, {
                 title:title,
                 journal: journal,
-                dateTime: dateTime,
-                
+                date: date,
+                time: timeWithSeconds,
+                user: user._id,
             });
             if(response.data){
                 alert("Journal saved!");
                 setJournal(''); 
-                setOpenEditor(false);
+                setCreateJournal(false);
             }
             
             
@@ -58,16 +78,13 @@ const NewJournal = ({openEditor, setOpenEditor}) => {
         }
     };*/
 
-    const handleButtonClick = () => {
-        setIsEditing(!isEditing);
-                
-    };
   return (
     <div className='w-full h-full flex flex-col relative items-center justify-end '>
-        {!date && <div className='w-full h-full flex items-center justify-center rounded-[10px] opacity-50 absolute z-[10] bg-[white] text-[black] '>Select date</div>}
-        <div className='flex w-[90%] justify-between items-center'>
+        
+        <div className='flex flex-col w-[90%] justify-between items-start'>
+            <input type="datetime-local" value={dateTime} onChange={(event) => setDateTime(event.target.value)} className='p-[3px]  mb-[5px] rounded-[10px] bg-transparent text-[white] ' />
             <input value={title} type='text' placeholder="Title" onChange={(event) => setTitle(event.target.value)} className='w-full text-[white] bg-transparent shadow-[0px_0px_10px_rgba(0,0,0,0.5)] border-0 focus:outline-none py-[5px] mb-[5px] mr-[5px]' />
-            <input type="time" value={time} onChange={(event) => setTime(event.target.value)} className='p-[3px]  mb-[5px] rounded-[10px] bg-transparent text-[white] ' />
+            
         </div>
         
              {/* Area that shows existing text(if any) along with an edit button, if not, there will only be a text box*/}
@@ -76,7 +93,7 @@ const NewJournal = ({openEditor, setOpenEditor}) => {
                 <button type='submit' onClick={() => {
                     /*if(isEditing) {
                         handleSave();
-                        setOpenEditor(false);
+                        setCreateJournal(false);
                     }
                     handleButtonClick();*/
                     handleSave();

@@ -7,8 +7,12 @@ const journalSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    dateTime: {
-      type: Date,
+    date: {
+      type: String,
+      required: true,
+    },
+    time: {
+      type: String,
       required: true,
     },
     title: {

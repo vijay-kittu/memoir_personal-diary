@@ -8,6 +8,7 @@ export const JournalContext = createContext();
 export const JournalProvider = ({children}) => {
     const [date, setDate] = useState(null);
     const [time, setTime] = useState('00:00');
+    const [dateTime, setDateTime] = useState("");
 
   const handleDate = (date) => {
     setDate(date);
@@ -19,26 +20,12 @@ export const JournalProvider = ({children}) => {
     console.log('Selected time:', time);
   };
 
-  
-const getCombinedDateTime = (date, time) => {
-  if (!date || !time) return null;
-
-  const [hours, minutes] = time.split(':').map(Number);
-
-  const combined = set(date, {
-    hours,
-    minutes,
-    seconds: 0,
-    milliseconds: 0,
-  });
-
-  return combined;
-};
-
-
+  const handleDateTime = (dateTime) => {
+    setDateTime(dateTime);
+  }
 
   return (
-    <JournalContext.Provider value={{date, time, handleDate, handleTime, getCombinedDateTime}}>
+    <JournalContext.Provider value={{date, time, handleDate, handleTime, dateTime, handleDateTime}}>
       {children}
     </JournalContext.Provider>
   )

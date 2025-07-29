@@ -3,10 +3,13 @@ import JournalsPage from './JournalsPage';
 import axios from 'axios';
 import { JournalContext } from '../context/JournalContext';
 import NewJournal from './NewJournal';
+import EditJournal from './EditJournal';
 import { AuthContext } from '../context/AuthContext';
 
 const JournalSpace = () => {
-    const [openEditor, setOpenEditor] = useState(false);
+    const [createJournal, setCreateJournal] = useState(false);
+    const [journalId, setJournalId] = useState('');
+
     /*const [title, setTitle] = useState('');
     const [journal, setJournal] = useState('');
     const [isEditing, setIsEditing] = useState(false);
@@ -72,7 +75,16 @@ const JournalSpace = () => {
                 </button>
             </div>
             */}
-            {openEditor ? <NewJournal openEditor={openEditor} setOpenEditor={setOpenEditor} /> : <JournalsPage openEditor={openEditor} setOpenEditor={setOpenEditor} />}
+            {
+                createJournal && !journalId ? (
+                <NewJournal createJournal={createJournal} setCreateJournal={setCreateJournal} />
+                ) : !createJournal && !journalId ? (
+                <JournalsPage createJournal={createJournal} setCreateJournal={setCreateJournal} setJournalId={setJournalId} />
+                ) : !createJournal && journalId ? (
+                <EditJournal journalId={journalId} setJournalId={setJournalId} />
+                ) : null
+            }
+            {/*createJournal ? <NewJournal createJournal={createJournal} setCreateJournal={setCreateJournal} /> : <JournalsPage createJournal={createJournal} setCreateJournal={setCreateJournal} setJournalId={setJournalId} />*/}
 
         </div>
   )

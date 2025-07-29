@@ -20,7 +20,6 @@ const Signin = () => {
       });
 
       //localStorage.setItem('token', res.data.token);
-      alert("Logged in with Email ! ", JSON.stringify(res.data));
       handleUser(res.data.user);
       console.log(res.data.user);
       navigate("/", {replace: true});

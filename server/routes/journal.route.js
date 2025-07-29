@@ -22,25 +22,45 @@ journalRouter.get("/:userId/:date", async (req, res) => {
   try {
     const { userId, date } = req.params;
 
-    const journalsByDate = await Journal.find({ userId, date });
+    const journalsByDate = await Journal.find({ user: userId, date });
     return res.status(200).json({
       journalsByDate,
     });
   } catch (error) {
-    console.log("Error in fetching journals: ", error);
-    return res.status(400).json({ message: "Error in fetching journals" });
+    console.log("Error in fetching journals by date: ", error);
+    return res
+      .status(400)
+      .json({ message: "Error in fetching journals by date" });
+  }
+});
+
+journalRouter.get("/:journalId", async (req, res) => {
+  try {
+    const { journalId } = req.params;
+
+    const journalById = await Journal.findOne({ _id: journalId });
+    if (!journalById) {
+      console.log("Theres no journal!");
+      return res.status(404).json({ message: "Journal not found" });
+    }
+    console.log(journalById);
+    return res.status(200).json({ journal: journalById });
+  } catch (error) {
+    console.log("Error in fetching journal by id: ", error);
+    return res.status(400).json({ message: "Error in fetching journal by id" });
   }
 });
 
 journalRouter.post("/:userId", async (req, res) => {
   try {
-    const { title, journal, dateTime } = req.body;
+    const { title, journal, date, time } = req.body;
     const { userId } = req.params;
     const newJournal = await Journal.create({
       user: userId,
       title: title,
       journal: journal,
-      dateTime: dateTime,
+      date: date,
+      time: time,
     });
     if (newJournal) {
       console.log("Journal saved: ", newJournal);
@@ -78,22 +98,23 @@ journalRouter.patch("/:userId/:journalId", async (req, res) => {
   }
 });
 
-journalRouter.delete("/:userId/:journalId", async (req, res) => {
+journalRouter.delete("/:journalId", async (req, res) => {
   const {
-    params: { userId, journalId },
+    params: { journalId },
   } = req;
   try {
     const journalToBeDeleted = await Journal.findOneAndDelete({
       _id: journalId,
-      user: userId,
     });
     if (!journalToBeDeleted) {
       return res
         .status(404)
         .json({ message: "Journal not found or unauthorized" });
     }
+
     return res.status(200).json({ message: "Journal deleted successfully" });
   } catch (error) {
+    console.log(error);
     return res.status(400).json({ message: "Failed to delete journal" });
   }
 });
